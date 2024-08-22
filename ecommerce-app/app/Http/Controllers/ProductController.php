@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use App\Models\ProductCategory;
+use App\Models\UserReview;
 
 class ProductController extends Controller
 {
@@ -13,6 +14,15 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return view('admin.products.index', compact('products'));
+    }
+
+    public function show(Product $product)
+    {
+        $userReviews = UserReview::all();
+        return view('products.show', [
+            'product' => $product,
+            'userReviews' => $userReviews,
+        ]);
     }
 
     public function create()

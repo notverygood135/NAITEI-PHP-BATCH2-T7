@@ -79,13 +79,13 @@
     <div class="flex-grow">
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($products as $id => $product)
+                @foreach ($products as $product)
                     <div class="bg-white p-4 rounded-lg shadow">
-                        <a href="{{ route('product.show', ['id' => $id]) }}">
+                        <a href="{{ route('products.show', ['product' => $product->id]) }}">
                             <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-48 object-cover rounded">
                         </a>
                         <h3 class="mt-4 text-lg font-semibold">
-                            <a href="{{ route('product.show', ['id' => $id]) }}">{{ $product->name }}</a>
+                            <a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a>
                         </h3>
                         <p class="text-gray-500">{{ $product->description }}</p>
                         <p class="text-gray-600 mt-2">Category: {{ $product->product_category_id }}</p>

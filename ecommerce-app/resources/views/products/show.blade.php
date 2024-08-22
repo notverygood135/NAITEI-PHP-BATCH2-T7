@@ -13,9 +13,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
-                    <a href="{{ route('dashboard') }}" class="flex-shrink-0 text-xl font-bold text-gray-800">My Shop</a>
+                    <a href="{{ route('dashboard.index') }}" class="flex-shrink-0 text-xl font-bold text-gray-800">My Shop</a>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{{ route('dashboard') }}" class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium">Dashboard</a>
+                        <a href="{{ route('dashboard.index') }}" class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium">Dashboard</a>
                         <a href="#" class="text-gray-500 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Shop</a>
                         <a href="#" class="text-gray-500 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Contact</a>
                     </div>
@@ -40,7 +40,7 @@
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">
         <!-- Product Image -->
         <div class="w-full lg:w-1/2">
-            <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" class="w-full h-full object-cover rounded-lg shadow-lg">
+            <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" class="w-full h-full object-cover rounded-lg shadow-lg">
         </div>
 
         <!-- Product Info -->
@@ -70,22 +70,22 @@
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold text-gray-800">Customer Feedback</h2>
 
-        @forelse ($feedbacks as $feedback)
+        @forelse ($userReviews as $userReview)
             <div class="bg-white p-4 mt-4 rounded-lg shadow">
                 <div class="flex items-center">
                     <!-- Feedback Rating -->
-                    @for ($i = 0; $i < $feedback['rating']; $i++)
+                    @for ($i = 0; $i < $userReview['rating']; $i++)
                         <svg xmlns="http://www.w3.org/2000/svg" width="21.87" height="20.801" class="text-yellow-400 fill-current">
                             <path d="m4.178 20.801 6.758-4.91 6.756 4.91-2.58-7.946 6.758-4.91h-8.352L10.936 0 8.354 7.945H0l6.758 4.91-2.58 7.946z"/>
                         </svg>
                     @endfor
-                    @for ($i = $feedback['rating']; $i < 5; $i++)
+                    @for ($i = $userReview['rating']; $i < 5; $i++)
                         <svg xmlns="http://www.w3.org/2000/svg" width="21.87" height="20.801" class="text-gray-300 fill-current">
                             <path d="m4.178 20.801 6.758-4.91 6.756 4.91-2.58-7.946 6.758-4.91h-8.352L10.936 0 8.354 7.945H0l6.758 4.91-2.58 7.946z"/>
                         </svg>
                     @endfor
                 </div>
-                <p class="mt-2 text-gray-600">{{ $feedback['text'] }}</p>
+                <p class="mt-2 text-gray-600">{{ $userReview['comment'] }}</p>
             </div>
         @empty
             <p class="mt-4 text-gray-600">No feedback available for this product.</p>

@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <a href="{{ route('dashboard') }}" class="flex-shrink-0 text-xl font-bold text-gray-800">My Shop</a>
+                <a href="{{ route('dashboard.index') }}" class="flex-shrink-0 text-xl font-bold text-gray-800">My Shop</a>
             </div>
             <div class="flex items-center">
                 <form method="POST" action="{{ route('logout') }}">
