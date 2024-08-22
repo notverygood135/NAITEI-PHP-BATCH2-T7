@@ -4,14 +4,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 
 // Rest of the code...
 
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Rest of the code...
 
@@ -173,63 +174,9 @@ $feedbacks = [
     ],
 ];
 
-// Dashboard route with authentication middleware
-Route::get('/dashboard', function (Request $request) use ($products) {
-    // Get sorting and filtering inputs
-    $sortAlphabet = $request->input('sort-alphabet');
-    $sortPrice = $request->input('sort-price');
-    $sortRating = $request->input('sort-rating');
-    $filterCategory = $request->input('category');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    // ->middleware(['auth', 'verified']);
 
-    // Check if multiple sorting options are selected at once
-    $sortingOptionsSelected = array_filter([$sortAlphabet, $sortPrice, $sortRating]);
-    if (count($sortingOptionsSelected) > 1) {
-        // Redirect back with an error message
-        return redirect()->route('dashboard')->with('error', 'Please select only one sorting option at a time.');
-    }
-
-    // Filter by category
-    if ($filterCategory) {
-        $products = array_filter($products, function ($product) use ($filterCategory) {
-            return $product['category'] === $filterCategory;
-        });
-    }
-
-    // Sort by alphabet
-    if ($sortAlphabet === 'az') {
-        uasort($products, function ($a, $b) {
-            return strcmp($a['name'], $b['name']);
-        });
-    } elseif ($sortAlphabet === 'za') {
-        uasort($products, function ($a, $b) {
-            return strcmp($b['name'], $a['name']);
-        });
-    }
-
-    // Sort by price
-    if ($sortPrice === 'low-high') {
-        uasort($products, function ($a, $b) {
-            return $a['price'] <=> $b['price'];
-        });
-    } elseif ($sortPrice === 'high-low') {
-        uasort($products, function ($a, $b) {
-            return $b['price'] <=> $a['price'];
-        });
-    }
-
-    // Sort by rating
-    if ($sortRating === 'low-high') {
-        uasort($products, function ($a, $b) {
-            return $a['rating'] <=> $b['rating'];
-        });
-    } elseif ($sortRating === 'high-low') {
-        uasort($products, function ($a, $b) {
-            return $b['rating'] <=> $a['rating'];
-        });
-    }
-
-    return view('dashboard', ['products' => $products]);
-})->middleware(['auth', 'verified'])->name('dashboard');
 // Route to display individual product details with feedback
 Route::get('/product/{id}', function ($id) use ($products, $feedbacks) {
     // Check if the product exists
@@ -267,7 +214,7 @@ Route::middleware('auth')->group(function () {
     })->name('admin.dashboard');
 });
 
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth', 'admin'])->group(function (){
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
@@ -277,7 +224,7 @@ Route::middleware(['auth'])->group(function (){
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
-Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
