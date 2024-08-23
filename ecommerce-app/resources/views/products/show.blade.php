@@ -11,36 +11,7 @@
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <a href="{{ route('dashboard.index') }}" class="flex-shrink-0 text-xl font-bold text-gray-800">My
-                        Shop</a>
-                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{{ route('dashboard.index') }}"
-                            class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium">Dashboard</a>
-                        <a href="#"
-                            class="text-gray-500 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Shop</a>
-                        <a href="#"
-                            class="text-gray-500 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Contact</a>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    @auth
-                        <a href="{{ route('profile.edit') }}" class="text-gray-500 hover:text-gray-700">Profile</a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="ml-4 text-gray-500 hover:text-gray-700">Logout</button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}" class="text-gray-500 hover:text-gray-700">Login</a>
-                        <a href="{{ route('register') }}" class="ml-4 text-gray-500 hover:text-gray-700">Register</a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('layouts.navigation')
 
     <!-- Product Details -->
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">

@@ -7,6 +7,9 @@ use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use App\Models\ProductCategory;
 use App\Models\UserReview;
+use App\Models\ViewedProduct;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -18,6 +21,16 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $userId = Auth::id();
+
+        $viewedProduct = new ViewedProduct([
+            'id' => Str::uuid(),
+            'user_id' => $userId,
+            'product_id' => $product->id,
+        ]);
+
+        $viewedProduct->save();
+        
         $userReviews = UserReview::all();
         return view('products.show', [
             'product' => $product,

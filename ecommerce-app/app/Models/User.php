@@ -47,6 +47,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'id' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
@@ -65,6 +66,11 @@ class User extends Authenticatable
     public function userReview(): HasMany
     {
         return $this->hasMany(UserReview::class);
+    }
+        
+    public function viewedProducts(): HasMany
+    {
+        return $this->hasMany(ViewedProduct::class);
     }
 
     protected function fullName(): Attribute
