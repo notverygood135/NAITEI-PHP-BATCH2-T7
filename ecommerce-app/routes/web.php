@@ -17,6 +17,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\UserReviewController;
 use App\Http\Controllers\OrderDetailController;
@@ -42,6 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
     Route::post('/cart/add', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/removeItem', [CartController::class, 'removeItem'])->name('cart.removeItem');
+
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
